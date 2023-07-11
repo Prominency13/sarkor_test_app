@@ -1,11 +1,17 @@
 package handler
 
 import (
+	"sarkor/test/pkg/service"
+
 	"github.com/gin-gonic/gin"
 )
 
 type UserHandler struct{
+	services *service.Service
+}
 
+func NewHandler(services *service.Service) *UserHandler{
+	return &UserHandler{services: services}
 }
 
 func(uh *UserHandler) InitRoutes() *gin.Engine{
