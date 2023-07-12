@@ -1,23 +1,24 @@
 package main
 
 import (
-	"log"
 	"sarkor/test"
 	"sarkor/test/pkg/handler"
 	"sarkor/test/pkg/repository"
 	"sarkor/test/pkg/service"
-
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
 func main(){
+	logrus.SetFormatter(new(logrus.JSONFormatter))
+
 	if err := initConfig(); err != nil {
-		log.Fatalf("No configuration file found")
+		logrus.Fatalf("No configuration file found")
 	}
 
 	db, err := repository.NewSqliteDB(repository.Config{Path: viper.GetString("db.path")})
 	if err != nil{
-		log.Fatalf("Failed to initialise DB: %s", err.Error())
+		logrus.Fatalf("Failed to initialise DB: %s", err.Error())
 	}
 
 	repos := repository.NewRepository(db)
@@ -26,23 +27,23 @@ func main(){
 
 	server := new(test.Server)
 	if err := server.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil{
-		log.Fatalf("Error occurred while running server: %s", err.Error())
+		logrus.Fatalf("Error occurred while running server: %s", err.Error())
 	}
 
 	// db, err := sql.Open("sqlite3", "database.db")
     // if err != nil {
-	// 	log.Fatalf("Error occurred while connecting to database:", err.Error())
+	// 	logrus.Fatalf("Error occurred while connecting to database:", err.Error())
     // }
 	
-	// _, err = db.Exec("CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY, login TEXT, password TEXT, name TEXT, age TEXT);")
-    // if err != nil {
-	// 	log.Fatalf("Error occurred while processing SQL query", err.Error())
-    // }
+	_, err = db.Exec("CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY, login TEXT, password TEXT, name TEXT, age TEXT);")
+    if err != nil {
+		logrus.Fatalf("Error occurred while processing SQL query", err.Error())
+    }
 	
-	// _, err = db.Exec("CREATE TABLE IF NOT EXISTS phone(id INTEGER PRIMARY KEY, phone TEXT, description TEXT, is_fax TINYINT, FOREIGN KEY(user_id) REFERENCES user(id));")
-    // if err != nil {
-	// 	log.Fatalf("Error occurred while processing SQL query", err.Error())
-    // }
+	_, err = db.Exec("CREATE TABLE IF NOT EXISTS phone(id INTEGER PRIMARY KEY, phone TEXT, description TEXT, is_fax TINYINT, FOREIGN KEY(user_id) REFERENCES user(id));")
+    if err != nil {
+		logrus.Fatalf("Error occurred while processing SQL query", err.Error())
+    }
 
 	// _, err = db.Exec("INSERT INTO user(name) values('Alice');")
 	// if err != nil {
@@ -63,7 +64,7 @@ func main(){
     // }
 
 	// if err := rows.Err(); err != nil {
-	// 	log.Fatal(err)
+	// 	logrus.Fatal(err)
 	//   }
 	// defer rows.Close()
 	

@@ -5,6 +5,11 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+const (
+	usersTable = "user"
+	phoneTable = "phone"
+)
+
 type Config struct{
 	Path string
 }
