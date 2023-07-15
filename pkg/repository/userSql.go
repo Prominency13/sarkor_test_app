@@ -17,7 +17,7 @@ func NewUserSql(db *sqlx.DB) *UserSql{
 
 func (us *UserSql) RegisterUser(user model.User) (int, error){
 	var id int
-	query := fmt.Sprintf("INSERT INTO %s (login, password, name, age) values($1, $2, $3, $4) RETURNING id")
+	query := fmt.Sprintf("INSERT INTO %s (login, password, name, age) values($1, $2, $3, $4) RETURNING id", usersTable)
 	row := us.db.QueryRow(query, user.Login, user.Password, user.Name, user.Age)
 
 	if err := row.Scan(&id); err != nil{
