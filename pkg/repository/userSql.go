@@ -23,6 +23,18 @@ func (us *UserSql) RegisterUser(user model.User) (int, error){
 	if err := row.Scan(&id); err != nil{
 		return 0, err
 	}
-	
+
 	return id, nil
+}
+
+func (us *UserSql) GetUser(username, password string) (model.User, error){
+	var user model.User
+	// query := fmt.Sprintf("SELECT id FROM %s WHERE username=$1 AND password=$2", usersTable)
+	// row := us.db.QueryRow(query, username, password)
+
+	// if err := row.Scan(&user); err != nil{
+	// 	return ,err
+	// }
+
+	return user, nil
 }

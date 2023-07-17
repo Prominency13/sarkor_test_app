@@ -37,6 +37,10 @@ func main(){
 		logrus.Fatalf("Error occurred while running server: %s", err.Error())
 	}
 
+	dbping := db.Ping()
+	if dbping != nil{
+		logrus.Fatalf(dbping.Error())
+	}
 
 	_, err = db.Exec("CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY, login TEXT, password TEXT, name TEXT, age TEXT);")
     if err != nil {

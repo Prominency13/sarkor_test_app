@@ -27,3 +27,11 @@ func (s *UserService) generatePwdHash(password string) string{
 
 	return string(hash)
 }
+
+// func (s *UserService) GenerateToken(login, password string) (int, error){
+	
+// }
+
+// func (s *UserService) GetUser(username, password string) (model.User, error){
+
+// }
