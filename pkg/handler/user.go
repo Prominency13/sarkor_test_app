@@ -25,23 +25,23 @@ func (uh *UserHandler) register(c *gin.Context) {
 
 type authInput struct{
 	Login string `json:"login" binding:"required"`
-	Password string
+	Password string `json:"password" binding:"required"`
 }
 
 func (uh *UserHandler) auth(c *gin.Context) {
-	// var input authInput
+	var input authInput
 
-	// if err := c.BindJSON(&input); err != nil {
-	// 	newErrorResponse(c, http.StatusBadRequest, err.Error())
-	// }
+	if err := c.BindJSON(&input); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+	}
 
-	// id, err := uh.services.UserApi.GenerateToken(input.Login, input.Password)
-	// if err != nil {
-	// 	newErrorResponse(c, http.StatusInternalServerError, err.Error())
-	// 	return
-	// }
+	token, err := uh.services.UserApi.GenerateToken(input.Login, input.Password)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 
-	// c.JSON(http.StatusOK, map[string]interface{}{"id": id})
+	c.JSON(http.StatusOK, map[string]interface{}{"token": token})
 }
 
 func (uh *UserHandler) getUserName(c *gin.Context) {

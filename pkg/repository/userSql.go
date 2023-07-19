@@ -27,14 +27,14 @@ func (us *UserSql) RegisterUser(user model.User) (int, error){
 	return id, nil
 }
 
-func (us *UserSql) GetUser(username, password string) (model.User, error){
+func (us *UserSql) GetUser(login, password string) (model.User, error){
 	var user model.User
-	// query := fmt.Sprintf("SELECT id FROM %s WHERE username=$1 AND password=$2", usersTable)
-	// row := us.db.QueryRow(query, username, password)
+	query := fmt.Sprintf("SELECT id FROM %s WHERE login=$1 AND password=$2", usersTable)
+	err := us.db.Get(&user, query, login, password)
 
 	// if err := row.Scan(&user); err != nil{
 	// 	return ,err
 	// }
 
-	return user, nil
+	return user, err
 }

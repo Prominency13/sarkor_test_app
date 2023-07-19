@@ -22,7 +22,7 @@ func NewSqliteDB(cfg Config) (*sqlx.DB, error){
 		return nil, err
 	}
 
-	_, err = db.Exec("CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY, login TEXT, password TEXT, name TEXT, age TEXT);")
+	_, err = db.Exec("CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY, login TEXT UNIQUE, password TEXT, name TEXT, age TEXT);")
     if err != nil {
 		logrus.Fatalf("Error occurred while processing SQL query %s", err.Error())
     }

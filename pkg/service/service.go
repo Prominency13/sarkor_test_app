@@ -7,8 +7,7 @@ import (
 
 type UserApi interface {
 	RegisterUser(user model.User) (int, error)
-	// GenerateToken(login, password string) (int, error)
-	// GetUser(username, password string) (model.User, error)
+	GenerateToken(login, password string) (string, error)
 }
 
 type Service struct {
