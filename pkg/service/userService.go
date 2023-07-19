@@ -1,12 +1,14 @@
 package service
 
 import (
+	"crypto/sha1"
+	"fmt"
 	"sarkor/test/pkg/model"
 	"sarkor/test/pkg/repository"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"golang.org/x/crypto/bcrypt"
+	// "golang.org/x/crypto/bcrypt"
 )
 
 type UserService struct {
@@ -14,6 +16,8 @@ type UserService struct {
 }
 
 const(
+	salt       = "qpug24fpih3wch1poh"
+	signingKey = "qrkjk#4#%35FSFJlja#4353KSFjH"
 	tokenTTL = 12 * time.Hour
 )
 
@@ -33,12 +37,16 @@ func (s *UserService) RegisterUser(user model.User) (int, error) {
 }
 
 func (s *UserService) generatePwdHash(password string) string {
-	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	if err != nil {
-		panic(err)
-	}
+	hash := sha1.New()
+	hash.Write([]byte(password))
 
-	return string(hash)
+	return fmt.Sprintf("%x", hash.Sum([]byte(salt)))
+	// hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	// return string(hash)
 }
 
 func (s *UserService) GenerateToken(login, password string) (string, error) {
@@ -57,7 +65,7 @@ func (s *UserService) GenerateToken(login, password string) (string, error) {
 		user.Login,
 	})
 
-	return token.Signature , nil
+	return token.SignedString([]byte(signingKey))
 
 }
 
