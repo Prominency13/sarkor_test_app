@@ -6,7 +6,7 @@ import (
 	"sarkor/test/pkg/repository"
 	"sarkor/test/pkg/service"
 
-	"github.com/jmoiron/sqlx"
+	// "github.com/jmoiron/sqlx"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
@@ -18,15 +18,15 @@ func main(){
 		logrus.Fatalf("No configuration file found")
 	}
 
-	// db, err := repository.NewSqliteDB(repository.Config{Path: viper.GetString("db.path")})
-	// if err != nil{
-	// 	logrus.Fatalf("Failed to initialise DB: %s", err.Error())
-	// }
+	db, err := repository.NewSqliteDB(repository.Config{Path: viper.GetString("db")})
+	if err != nil{
+		logrus.Fatalf("Failed to initialise DB: %s", err.Error())
+	}
 
-	db, err := sqlx.Open("sqlite3", "../database.db")
-    if err != nil {
-		logrus.Fatalf("Error occurred while connecting to database:", err.Error())
-    }
+	// db, err := sqlx.Open("sqlite3", "./database.db")
+    // if err != nil {
+	// 	logrus.Fatalf("Error occurred while connecting to database:", err.Error())
+    // }
 
 	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
@@ -52,10 +52,10 @@ func main(){
 		logrus.Fatalf("Error occurred while processing SQL query", err.Error())
     }
 
-	// _, err = db.Exec("INSERT INTO user(name) values('Alice');")
-	// if err != nil {
-    //     panic(err)
-    // }
+	_, err = db.Exec("INSERT INTO user(name) values('Alice2');")
+	if err != nil {
+        panic(err)
+    }
 	// rows, err := db.Query("SELECT id, name FROM user")
 	// if err != nil {
     //     panic(err)

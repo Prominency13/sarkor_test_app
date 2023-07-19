@@ -1,3 +1,2 @@
-port: "8080"
-db:
-  path: "../../database.db"
+port: '8080'
+db: 'database.db'
