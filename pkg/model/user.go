@@ -1,9 +1,9 @@
 package model
 
 type User struct {
-	Id       int    `json:"id" binding:"required"`
+	Id       int    `json:"id"`
 	Login    string `json:"login" binding:"required"`
-	Password string
+	Password string	`json:"password" binding:"required"`
 	Name     string `json:"name" binding:"required"`
 	Age      int16  `json:"age" binding:"required"`
 }
