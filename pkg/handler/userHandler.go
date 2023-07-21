@@ -28,10 +28,10 @@ func(uh *UserHandler) InitRoutes() *gin.Engine{
 		// })
 		userApi.POST("/register", uh.register)
 		userApi.GET("/auth", uh.auth)
-		userApi.GET("/:name", uh.getUserName)
-		userApi.POST("/phone", uh.addUserPhone)
-		userApi.GET("/phone?q=", uh.getUserPhone)
-		userApi.DELETE("/phone/:phone_id", uh.deleteUserPhone)
+		userApi.GET("/:name", uh.userIdentity, uh.getUserName)
+		userApi.POST("/phone", uh.userIdentity,uh.addUserPhone)
+		userApi.GET("/phone?q=", uh.userIdentity,uh.getUserPhone)
+		userApi.DELETE("/phone/:phone_id", uh.userIdentity, uh.deleteUserPhone)
 	}
 	return userRouter
 }

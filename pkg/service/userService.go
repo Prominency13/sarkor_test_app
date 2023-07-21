@@ -2,6 +2,7 @@ package service
 
 import (
 	"crypto/sha1"
+	"errors"
 	"fmt"
 	"sarkor/test/pkg/model"
 	"sarkor/test/pkg/repository"
@@ -69,3 +70,22 @@ func (s *UserService) GenerateToken(login, password string) (string, error) {
 
 }
 
+func (s *UserService) ParseToken(accessToken string) (int, error){
+	token, err := jwt.ParseWithClaims(accessToken, &tokenClaims{}, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, errors.New("Invalid signing method")
+		}
+
+		return []byte(signingKey), nil
+	})
+	if err != nil {
+		return 0, err
+	}
+
+	claims, ok := token.Claims.(*tokenClaims)
+	if !ok {
+		return 0, errors.New("Token claims aren't type of *tokenClaims")
+	}
+
+	return claims.UserId, nil
+}
