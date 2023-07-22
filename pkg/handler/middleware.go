@@ -30,6 +30,5 @@ func(uh *UserHandler) userIdentity(c *gin.Context){
 		newErrorResponse(c, http.StatusUnauthorized, err.Error())
 	}
 
-	// c.SetCookie("SESSTOKEN", token, 3600, "/", "localhost", false, false)
 	c.Set(userCtx, userId)
 }

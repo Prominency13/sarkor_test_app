@@ -43,10 +43,10 @@ func (us *UserSql) GetUserByName(name string) (model.User, error){
 	return user, err
 }
 
-func(us *UserSql) FindPhoneDuplicate(phone string) (string, error){
+func(us *UserSql) FindPhoneDuplicate(phone string, userId int) (string, error){
 	var hasDuplicate string
-	query := fmt.Sprintf("SELECT phone FROM %s WHERE phone=$1", phoneTable)
-	err := us.db.Get(&hasDuplicate, query, phone)
+	query := fmt.Sprintf("SELECT phone FROM %s WHERE phone=$1 AND user_id=$2", phoneTable)
+	err := us.db.Get(&hasDuplicate, query, phone, userId)
 
 	return hasDuplicate, err
 }

@@ -94,7 +94,7 @@ func (s *UserService) FindUserByName(name string) (model.User, error){
 }
 
 func (s *UserService) AddUserPhone(phone model.Phone, userId int) (int, error){
-	duplicatePhone, err := s.repo.FindPhoneDuplicate(phone.Phone)
+	duplicatePhone, err := s.repo.FindPhoneDuplicate(phone.Phone, userId)
 	if duplicatePhone != "" {
 		return 0, err
 	}
