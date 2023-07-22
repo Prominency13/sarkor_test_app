@@ -101,3 +101,7 @@ func (s *UserService) AddUserPhone(phone model.Phone, userId int) (int, error){
 
 	return s.repo.AddUserPhone(phone, userId)
 }
+
+func (s *UserService) FindUsersByPhone(phone string) ([]model.Phone, error){
+	return s.repo.GetUsersByPhone(phone)
+}

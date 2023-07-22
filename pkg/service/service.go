@@ -11,6 +11,7 @@ type UserApi interface {
 	ParseToken(token string) (int, error)
 	FindUserByName(name string) (model.User, error)
 	AddUserPhone(phone model.Phone, userId int) (int, error)
+	FindUsersByPhone(phone string) ([]model.Phone, error)
 }
 
 type Service struct {

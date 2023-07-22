@@ -12,6 +12,7 @@ type UserApi interface{
 	GetUserByName(name string) (model.User, error)
 	AddUserPhone(phone model.Phone, userId int) (int, error)
 	FindPhoneDuplicate(phone string, userId int) (string, error)
+	GetUsersByPhone(phone string) ([]model.Phone, error)
 }
 
 type Repository struct{

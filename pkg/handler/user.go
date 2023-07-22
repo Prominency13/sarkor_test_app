@@ -109,6 +109,22 @@ func (uh *UserHandler) addUserPhone(c *gin.Context) {
 }
 
 func (uh *UserHandler) getUserPhone(c *gin.Context) {
+	phone := c.Query("number")
+
+	if err := c.BindJSON(&phone); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	users, err := uh.services.FindUsersByPhone(phone)
+	if  err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, map[string]interface{}{"user_id": users[len(users)-1].User_id, "phone": users[len(users)-1].Phone, "is_fax": users[len(users)-1].Is_fax})
+}
+
+func (uh *UserHandler) editUserPhone(c *gin.Context){
 
 }
 

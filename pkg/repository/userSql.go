@@ -62,3 +62,11 @@ func(us *UserSql) AddUserPhone(phone model.Phone, userId int) (int, error){
 
 	return id, nil
 }
+
+func(us *UserSql) GetUsersByPhone(phone string) ([]model.Phone, error){
+	var users []model.Phone
+	query := fmt.Sprintf("SELECT * FROM %s WHERE phone LIKE $1", phoneTable)
+	err := us.db.Select(&users, query, "%"+phone+"%")
+
+	return users, err
+}
