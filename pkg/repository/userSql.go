@@ -32,9 +32,13 @@ func (us *UserSql) GetUser(login, password string) (model.User, error){
 	query := fmt.Sprintf("SELECT id FROM %s WHERE login=$1 AND password=$2", usersTable)
 	err := us.db.Get(&user, query, login, password)
 
-	// if err := row.Scan(&user); err != nil{
-	// 	return ,err
-	// }
+	return user, err
+}
+
+func (us *UserSql) GetUserByName(name string) (model.User, error){
+	var user model.User
+	query := fmt.Sprintf("SELECT * FROM %s WHERE name=$1", usersTable)
+	err := us.db.Get(&user, query, name)
 
 	return user, err
 }

@@ -53,10 +53,22 @@ func (uh *UserHandler) auth(c *gin.Context) {
 	c.JSON(http.StatusOK, map[string]interface{}{"token": token})
 }
 
-func (uh *UserHandler) getUserName(c *gin.Context) {
-	id, _ := c.Get(userCtx)
+func (uh *UserHandler) getUserByName(c *gin.Context) {
+	var user model.User
+	name := c.Param("name")
+	if err := c.BindJSON(&user); err != nil{
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+	}
+
+	user, err := uh.services.UserApi.FindUserByName(name)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+	}
+
 	c.JSON(http.StatusOK, map[string]interface{}{
-		"id": id,
+		"id": user.Id,
+		"name": user.Name,
+		"age": user.Age,
 	})
 }
 

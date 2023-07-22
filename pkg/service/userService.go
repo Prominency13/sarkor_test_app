@@ -67,7 +67,6 @@ func (s *UserService) GenerateToken(login, password string) (string, error) {
 	})
 
 	return token.SignedString([]byte(signingKey))
-
 }
 
 func (s *UserService) ParseToken(accessToken string) (int, error){
@@ -88,4 +87,8 @@ func (s *UserService) ParseToken(accessToken string) (int, error){
 	}
 
 	return claims.UserId, nil
+}
+
+func (s *UserService) FindUserByName(name string) (model.User, error){
+	return s.repo.GetUserByName(name)
 }

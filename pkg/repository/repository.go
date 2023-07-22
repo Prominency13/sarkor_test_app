@@ -9,6 +9,7 @@ import (
 type UserApi interface{
 	RegisterUser(user model.User) (int, error)
 	GetUser(login, password string) (model.User, error)
+	GetUserByName(name string) (model.User, error)
 }
 
 type Repository struct{
