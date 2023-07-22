@@ -10,6 +10,7 @@ type UserApi interface {
 	GenerateToken(login, password string) (string, error)
 	ParseToken(token string) (int, error)
 	FindUserByName(name string) (model.User, error)
+	AddUserPhone(phone model.Phone, userId int) (int, error)
 }
 
 type Service struct {

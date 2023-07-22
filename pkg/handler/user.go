@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"sarkor/test/pkg/model"
 
@@ -63,6 +62,7 @@ func (uh *UserHandler) getUserByName(c *gin.Context) {
 	user, err := uh.services.UserApi.FindUserByName(name)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
 	}
 
 	c.JSON(http.StatusOK, map[string]interface{}{
@@ -73,7 +73,39 @@ func (uh *UserHandler) getUserByName(c *gin.Context) {
 }
 
 func (uh *UserHandler) addUserPhone(c *gin.Context) {
-	fmt.Println("It worked somehow")
+	var phone model.Phone
+
+	if err := c.BindJSON(&phone); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if len(phone.Phone) > 12{
+		newErrorResponse(c, http.StatusBadRequest, "Phone length can't be longer than 12 characters")
+		return
+	}
+
+	cookie, err := c.Request.Cookie("SESSTOKEN")
+
+	if err != nil{
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	tokenString := cookie.Value
+
+	userId, err := uh.services.ParseToken(tokenString)
+	if err != nil{
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	id, err := uh.services.AddUserPhone(phone, userId)
+	if  err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{"phoneId": id})
 }
 
 func (uh *UserHandler) getUserPhone(c *gin.Context) {

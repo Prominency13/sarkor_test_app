@@ -92,3 +92,12 @@ func (s *UserService) ParseToken(accessToken string) (int, error){
 func (s *UserService) FindUserByName(name string) (model.User, error){
 	return s.repo.GetUserByName(name)
 }
+
+func (s *UserService) AddUserPhone(phone model.Phone, userId int) (int, error){
+	duplicatePhone, err := s.repo.FindPhoneDuplicate(phone.Phone)
+	if duplicatePhone != "" {
+		return 0, err
+	}
+
+	return s.repo.AddUserPhone(phone, userId)
+}
