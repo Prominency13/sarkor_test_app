@@ -31,25 +31,6 @@ func main(){
 		logrus.Fatalf("Error occurred while running server: %s", err.Error())
 	}
 
-	// rows, err := db.Query("SELECT id, name FROM user")
-	// if err != nil {
-    //     panic(err)
-    // }
-	// for rows.Next() {
-    //     var id int
-    //     var name string
-    //     err = rows.Scan(&id, &name)
-    //     if err != nil {
-    //         panic(err)
-    //     }
-    //     fmt.Println(id, name)
-    // }
-
-	// if err := rows.Err(); err != nil {
-	// 	logrus.Fatal(err)
-	//   }
-	// defer rows.Close()
-	
 	defer db.Close()
 }
 

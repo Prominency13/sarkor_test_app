@@ -1,8 +1,10 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 	"sarkor/test/pkg/model"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -85,15 +87,7 @@ func (uh *UserHandler) addUserPhone(c *gin.Context) {
 		return
 	}
 
-	cookie, err := c.Request.Cookie("SESSTOKEN")
-
-	if err != nil{
-		newErrorResponse(c, http.StatusBadRequest, err.Error())
-		return
-	}
-	tokenString := cookie.Value
-
-	userId, err := uh.services.ParseToken(tokenString)
+	userId, err := uh.getUserId(c)
 	if err != nil{
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
@@ -111,17 +105,14 @@ func (uh *UserHandler) addUserPhone(c *gin.Context) {
 func (uh *UserHandler) getUserPhone(c *gin.Context) {
 	phone := c.Query("number")
 
-	if err := c.BindJSON(&phone); err != nil {
-		newErrorResponse(c, http.StatusBadRequest, err.Error())
-		return
-	}
+	fmt.Println(&phone)
 
 	users, err := uh.services.FindUsersByPhone(phone)
 	if  err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, map[string]interface{}{"user_id": users[len(users)-1].User_id, "phone": users[len(users)-1].Phone, "is_fax": users[len(users)-1].Is_fax})
+	c.JSON(http.StatusOK, users)
 }
 
 func (uh *UserHandler) editUserPhone(c *gin.Context){
@@ -129,5 +120,19 @@ func (uh *UserHandler) editUserPhone(c *gin.Context){
 }
 
 func (uh *UserHandler) deleteUserPhone(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("phone_id"))
+	if  err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
 
+	err = uh.services.DeletePhoneByPhoneId(id)
+	if err != nil{
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, statusResponse{
+		Status: "OK!",
+	})
 }

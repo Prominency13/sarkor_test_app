@@ -66,7 +66,16 @@ func(us *UserSql) AddUserPhone(phone model.Phone, userId int) (int, error){
 func(us *UserSql) GetUsersByPhone(phone string) ([]model.Phone, error){
 	var users []model.Phone
 	query := fmt.Sprintf("SELECT * FROM %s WHERE phone LIKE $1", phoneTable)
+
+	fmt.Println(query)
 	err := us.db.Select(&users, query, "%"+phone+"%")
 
 	return users, err
+}
+
+func(us *UserSql) DeletePhoneByPhoneId(phoneId int) error{
+	query := fmt.Sprintf("DELETE FROM %s WHERE id=$1", phoneTable)
+	_, err := us.db.Exec(query, phoneId)
+
+	return err
 }
