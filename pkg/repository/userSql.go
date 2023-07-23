@@ -73,34 +73,8 @@ func(us *UserSql) GetUsersByPhone(phone string) ([]model.Phone, error){
 }
 
 func(us *UserSql) UpdatePhone(userId int, phone model.UpdatePhoneInput) error{
-	// Создаём слайсы(мутабельные массивы) для заполнения при проверке на наличие тех или иных полей в модели
-	// setValues := make([]string,0)
-	// args := make([]string,0)
-	// argId := 1
-
-	// if phone.Phone != nil {
-	// 	setValues = append(setValues, fmt.Sprintf("phone=$%d", argId))
-	// 	args = append(args, *phone.Phone)
-	// 	argId++
-	// }
-
-	// if phone.Description != nil {
-	// 	setValues = append(setValues, fmt.Sprintf("description=$%d", argId))
-	// 	args = append(args, *phone.Description)
-	// 	argId++
-	// }
-
-	// if phone.Phone != nil {
-	// 	setValues = append(setValues, fmt.Sprintf("is_fax=$%d", argId))
-	// 	args = append(args, *phone.IsFax)
-	// 	argId++
-	// }
-
-	// setQuery := strings.Join(setValues, ", ")
-	query := fmt.Sprintf("UPDATE %s SET phone=$1, description=$2, is_fax=$3 WHERE user_id=$%d;", phoneTable, userId)
-	// args = append(args,userId)
-
-	_, err := us.db.Exec(query, phone.Phone, phone.Description, phone.IsFax)
+	query := fmt.Sprintf("UPDATE %s SET phone=$1, description=$2, is_fax=$3, user_id=$4 WHERE id=$4", phoneTable)
+	_, err := us.db.Exec(query, phone.Phone, phone.Description, phone.IsFax, phone.PhoneId, userId)
 
 	return err
 }

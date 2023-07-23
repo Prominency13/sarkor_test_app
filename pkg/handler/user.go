@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"sarkor/test/pkg/model"
 	"strconv"
@@ -42,15 +41,9 @@ func (uh *UserHandler) auth(c *gin.Context) {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-	// expirationTime := 60 * time.Minute
-	c.SetCookie("SESSTOKEN", token, 3600, "/", "localhost", false, false)
-	// cookie := http.Cookie{
-	// 	Name:       "SESSTOKEN",
-	// 	Value:      token,
-	// 	Expires:    time.Now().Add(expirationTime),
-	// }
 
-	// http.SetCookie(rw, &cookie)
+	c.SetCookie("SESSTOKEN", token, 3600, "/", "localhost", false, false)
+
 	c.JSON(http.StatusOK, map[string]interface{}{"token": token})
 }
 
@@ -105,8 +98,6 @@ func (uh *UserHandler) addUserPhone(c *gin.Context) {
 func (uh *UserHandler) getUserPhone(c *gin.Context) {
 	phone := c.Query("number")
 
-	fmt.Println(&phone)
-
 	users, err := uh.services.FindUsersByPhone(phone)
 	if  err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
@@ -128,12 +119,19 @@ func (uh *UserHandler) editUserPhone(c *gin.Context){
 		return
 	}
 
+	// Get user id from JWT
 	userId, err := uh.getUserId(c)
 	if err != nil{
+		newErrorResponse(c, http.StatusBadRequest, "Couldn't get user id")
 		return
 	}
 
-	uh.services.UpdatePhone(userId, phone)
+	err = uh.services.UpdatePhone(userId, phone)
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
 	c.JSON(http.StatusOK, statusResponse{
 		Status: "OK!",
 	})
