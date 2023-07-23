@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"sarkor/test/pkg/model"
 	"github.com/jmoiron/sqlx"
-	"github.com/sirupsen/logrus"
 )
 
 type UserSql struct{
@@ -65,9 +64,8 @@ func(us *UserSql) AddUserPhone(phone model.Phone, userId int) (int, error){
 
 func(us *UserSql) GetUsersByPhone(phone string) ([]model.Phone, error){
 	var users []model.Phone
-	query := fmt.Sprintf("SELECT * FROM %s WHERE phone LIKE $%s", phoneTable, "_"+phone+"_")
-	logrus.Debugf("get query", query)
-	err := us.db.Select(&users, query, )
+	query := fmt.Sprintf("SELECT * FROM %s WHERE phone LIKE ?", phoneTable)
+	err := us.db.Select(&users, query, "%"+phone+"%")
 
 	return users, err
 }
