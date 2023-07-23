@@ -106,6 +106,10 @@ func (s *UserService) FindUsersByPhone(phone string) ([]model.Phone, error){
 	return s.repo.GetUsersByPhone(phone)
 }
 
+func(s *UserService) UpdatePhone(userId int, phone model.UpdatePhoneInput) error{
+	return s.repo.UpdatePhone(userId, phone)
+}
+
 func(s *UserService) DeletePhoneByPhoneId(phoneId int) error{
 	return s.repo.DeletePhoneByPhoneId(phoneId)
 

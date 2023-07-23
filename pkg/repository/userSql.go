@@ -3,8 +3,8 @@ package repository
 import (
 	"fmt"
 	"sarkor/test/pkg/model"
-
 	"github.com/jmoiron/sqlx"
+	"github.com/sirupsen/logrus"
 )
 
 type UserSql struct{
@@ -65,12 +65,44 @@ func(us *UserSql) AddUserPhone(phone model.Phone, userId int) (int, error){
 
 func(us *UserSql) GetUsersByPhone(phone string) ([]model.Phone, error){
 	var users []model.Phone
-	query := fmt.Sprintf("SELECT * FROM %s WHERE phone LIKE $1", phoneTable)
-
-	fmt.Println(query)
-	err := us.db.Select(&users, query, "%"+phone+"%")
+	query := fmt.Sprintf("SELECT * FROM %s WHERE phone LIKE $%s", phoneTable, "_"+phone+"_")
+	logrus.Debugf("get query", query)
+	err := us.db.Select(&users, query, )
 
 	return users, err
+}
+
+func(us *UserSql) UpdatePhone(userId int, phone model.UpdatePhoneInput) error{
+	// Создаём слайсы(мутабельные массивы) для заполнения при проверке на наличие тех или иных полей в модели
+	// setValues := make([]string,0)
+	// args := make([]string,0)
+	// argId := 1
+
+	// if phone.Phone != nil {
+	// 	setValues = append(setValues, fmt.Sprintf("phone=$%d", argId))
+	// 	args = append(args, *phone.Phone)
+	// 	argId++
+	// }
+
+	// if phone.Description != nil {
+	// 	setValues = append(setValues, fmt.Sprintf("description=$%d", argId))
+	// 	args = append(args, *phone.Description)
+	// 	argId++
+	// }
+
+	// if phone.Phone != nil {
+	// 	setValues = append(setValues, fmt.Sprintf("is_fax=$%d", argId))
+	// 	args = append(args, *phone.IsFax)
+	// 	argId++
+	// }
+
+	// setQuery := strings.Join(setValues, ", ")
+	query := fmt.Sprintf("UPDATE %s SET phone=$1, description=$2, is_fax=$3 WHERE user_id=$%d;", phoneTable, userId)
+	// args = append(args,userId)
+
+	_, err := us.db.Exec(query, phone.Phone, phone.Description, phone.IsFax)
+
+	return err
 }
 
 func(us *UserSql) DeletePhoneByPhoneId(phoneId int) error{

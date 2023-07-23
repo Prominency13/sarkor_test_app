@@ -12,6 +12,7 @@ type UserApi interface {
 	FindUserByName(name string) (model.User, error)
 	AddUserPhone(phone model.Phone, userId int) (int, error)
 	FindUsersByPhone(phone string) ([]model.Phone, error)
+	UpdatePhone(userId int, phone model.UpdatePhoneInput) error
 	DeletePhoneByPhoneId(phoneId int) error
 }
 

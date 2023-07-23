@@ -7,3 +7,10 @@ type Phone struct {
 	Is_fax      bool   `json:"is_fax"`
 	User_id     int    `json:"user_id"`
 }
+
+type UpdatePhoneInput struct{
+	PhoneId int `json:"phone_id" binding:"required"`
+	Phone *string `json:"phone"`
+	IsFax *string `json:"is_fax"`
+	Description *string `json:"description"`
+}

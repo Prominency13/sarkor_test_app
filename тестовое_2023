@@ -51,7 +51,7 @@ user_id, phone, description, is_fax
 
 7. реализовать метод PUT /user/phone для обновление данных номера
 (необходим middleware авторизации, который проверяет куки SESSTOKEN)
-поля 
+поля
 
 phone_id
 phone

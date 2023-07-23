@@ -116,7 +116,27 @@ func (uh *UserHandler) getUserPhone(c *gin.Context) {
 }
 
 func (uh *UserHandler) editUserPhone(c *gin.Context){
+	var phone model.UpdatePhoneInput
 
+	if err := c.BindJSON(&phone); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if len(*phone.Phone) > 12{
+		newErrorResponse(c, http.StatusBadRequest, "Phone length can't be longer than 12 characters")
+		return
+	}
+
+	userId, err := uh.getUserId(c)
+	if err != nil{
+		return
+	}
+
+	uh.services.UpdatePhone(userId, phone)
+	c.JSON(http.StatusOK, statusResponse{
+		Status: "OK!",
+	})
 }
 
 func (uh *UserHandler) deleteUserPhone(c *gin.Context) {
