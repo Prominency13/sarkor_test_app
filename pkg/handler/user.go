@@ -9,13 +9,28 @@ import (
 )
 
 func (uh *UserHandler) register(c *gin.Context) {
-	var input model.User
+	login := c.PostForm("login")
+	password := c.PostForm("password")
+	name := c.PostForm("name")
+	ageStr := c.PostForm("age")
 
-	if err := c.BindJSON(&input); err != nil {
+	age, err := strconv.ParseInt(ageStr, 10, 16)
+    if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "Can not convert age to integer")
+    }
+
+	user := model.User{
+		Login: login,
+		Password: password,
+		Name: name,
+		Age: int16(age),
+	}
+
+	if err := c.BindJSON(&user); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 	}
 
-	id, err := uh.services.UserApi.RegisterUser(input)
+	id, err := uh.services.UserApi.RegisterUser(user)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
