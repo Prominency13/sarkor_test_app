@@ -21,11 +21,11 @@ func(uh *UserHandler) InitRoutes() *gin.Engine{
 	{
 		userApi.POST("/register", uh.register)
 		userApi.POST("/auth", uh.auth)
-		userApi.GET("/:name", uh.userIdentity, uh.getUserByName)
-		userApi.POST("/phone", uh.userIdentity,uh.addUserPhone)
-		userApi.GET("/phone", uh.userIdentity, uh.getUserPhone)
-		userApi.PUT("/phone", uh.userIdentity, uh.editUserPhone)
-		userApi.DELETE("/phone/:phone_id", uh.userIdentity, uh.deleteUserPhone)
+		userApi.GET("/:name", uh.cookieIdentity, uh.getUserByName)
+		userApi.POST("/phone", uh.cookieIdentity,uh.addUserPhone)
+		userApi.GET("/phone", uh.cookieIdentity, uh.getUserPhone)
+		userApi.PUT("/phone", uh.cookieIdentity, uh.editUserPhone)
+		userApi.DELETE("/phone/:phone_id", uh.cookieIdentity, uh.deleteUserPhone)
 	}
 	return userRouter
 }
