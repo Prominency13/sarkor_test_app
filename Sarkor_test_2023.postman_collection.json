@@ -42,11 +42,8 @@
 		},
 		{
 			"name": "localhost:8000/user/auth",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",

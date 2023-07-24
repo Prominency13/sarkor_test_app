@@ -19,15 +19,8 @@ func(uh *UserHandler) InitRoutes() *gin.Engine{
 
 	userApi:= userRouter.Group("/user")
 	{
-		// userApi.POST("/register", func(ctx *gin.Context) {
-		// 	login := ctx.PostForm("login")
-		// 	password := ctx.PostForm("password")
-		// 	name := ctx.PostForm("name")
-		// 	age := ctx.PostForm("age")
-			
-		// })
 		userApi.POST("/register", uh.register)
-		userApi.GET("/auth", uh.auth)
+		userApi.POST("/auth", uh.auth)
 		userApi.GET("/:name", uh.userIdentity, uh.getUserByName)
 		userApi.POST("/phone", uh.userIdentity,uh.addUserPhone)
 		userApi.GET("/phone", uh.userIdentity, uh.getUserPhone)
