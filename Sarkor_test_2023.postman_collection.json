@@ -1,0 +1,174 @@
+{
+	"info": {
+		"_postman_id": "9017b215-a2a6-4d4f-a589-48ea811c1ea5",
+		"name": "Sarkor_test_2023",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "19178041"
+	},
+	"item": [
+		{
+			"name": "localhost:8000/user/register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "login",
+							"value": "Login",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "PostFormTest",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "25",
+							"type": "text"
+						}
+					]
+				},
+				"url": "localhost:8000/user/register"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8000/user/auth",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"login\": \"Test\",\n    \"password\": \"1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8000/user/auth"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8000/user/Bob",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAxNzc0MjYsImlhdCI6MTY5MDEzNDIyNiwidXNlcl9pZCI6NCwibG9naW4iOiIifQ.iDSxbgJZDRlngQv1rurm1Yhu3e-Yf460VeroPjxetks"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8000/user/Test"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8000/user/phone",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAxODU4ODIsImlhdCI6MTY5MDE0MjY4MiwidXNlcl9pZCI6MSwibG9naW4iOiIifQ.Uk53ssRzINQpQV298dv_kJB_YSyS_2zEIj9IWMt2Wns"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phone\": \"998977552933\",\n    \"description\": \"UMS\",\n    \"is_fax\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8000/user/phone"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8000/user/phone?number=99897",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAxOTUyNzIsImlhdCI6MTY5MDE1MjA3MiwidXNlcl9pZCI6NSwibG9naW4iOiIifQ.sMJAhQxDx6wmYcrPvCyh7bjIt_nwTeSipHFF5jB3KEI"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/user/phone?number=8800",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						"phone"
+					],
+					"query": [
+						{
+							"key": "number",
+							"value": "8800"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8000/user/phone/3",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAxNTQyNDYsImlhdCI6MTY5MDExMTA0NiwidXNlcl9pZCI6MywibG9naW4iOiIifQ.1_DG5Ab_RrHhyyyMxpseb-Viagalc7DVKoDs245nZzs"
+					}
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": "localhost:8000/user/phone/3"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8000/user/phone",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAxODU5OTEsImlhdCI6MTY5MDE0Mjc5MSwidXNlcl9pZCI6NSwibG9naW4iOiIifQ.lRRJV0ILDrQW6utx_WP3ZBlcSZrH22ssJbj3xAzvoYI"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phone_id\": 7, \n    \"phone\": \"99892\",\n    \"description\": \"Lalalala\",\n    \"is_fax\": \"0\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8000/user/phone"
+			},
+			"response": []
+		}
+	]
+}
